@@ -45,10 +45,10 @@ pipeline {
         stage('Run Terraform') {
             steps {
                 echo 'Running Terraform to create the cluster...'
-                dir("${TERRAFORM_WORKING_DIR}") {
+        
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
-                }
+                
             }
         }
 
