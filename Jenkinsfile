@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/your-username/your-repo.git' // Replace with your GitHub repo URL
-        IMAGE_NAME = 'your-dockerhub-username/your-app' // Replace with your Docker Hub image name
+        REPO_URL = 'https://github.com/sgandeplli/git-terra-dock-kube.git' // Replace with your GitHub repo URL
+        IMAGE_NAME = 'sekhar1913/final' // Replace with your Docker Hub image name
         DOCKER_CREDENTIALS_ID = 'dockerhub-credentials' // Jenkins credentials ID for Docker Hub
         TERRAFORM_WORKING_DIR = 'terraform' // Directory where Terraform script is located
         DEPLOY_YAML = 'deploy.yaml' // Path to your Kubernetes deployment manifest
