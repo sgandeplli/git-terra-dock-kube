@@ -3,6 +3,7 @@ pipeline {
 
      parameters {
         string(name: 'CLUSTER_NAME', defaultValue: 'my-cluster11', description: 'The GKE cluster name')
+         string(name: 'PROJECT_ID', defaultValue: 'python-visit', description: 'The GCP project ID')
         string(name: 'ZONE', defaultValue: 'us-west3', description: 'The GCP zone')
     }
 
