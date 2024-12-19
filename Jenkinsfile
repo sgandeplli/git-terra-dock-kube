@@ -45,10 +45,10 @@ pipeline {
         stage('Run Terraform') {
             steps {
                 echo 'Running Terraform to create the cluster...'
-        
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
-                
+                    withCredentials([file(credentialsId: 'gcp-sa', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                         sh 'terraform init'
+                        sh 'terraform apply -auto-approve'
+                }        
             }
         }
 
