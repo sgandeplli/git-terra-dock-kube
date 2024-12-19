@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+     parameters {
+        string(name: 'CLUSTER_NAME', defaultValue: 'my-cluster1', description: 'The GKE cluster name')
+        string(name: 'ZONE', defaultValue: 'us-west3', description: 'The GCP zone')
+    }
+
     environment {
         REPO_URL = 'https://github.com/sgandeplli/git-terra-dock-kube.git' // Replace with your GitHub repo URL
         IMAGE_NAME = 'sekhar1913/final' // Replace with your Docker Hub image name
@@ -65,8 +70,13 @@ pipeline {
 
         stage('Deploy Application') {
             steps {
-                echo 'Deploying application to the cluster...'
-                sh "kubectl apply -f ${DEPLOY_YAML}"
+                withCredentials([file(credentialsId: 'gcp-sa', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
+                    sh "gcloud container clusters get-credentials ${params.CLUSTER_NAME} --zone ${params.ZONE} --project ${params.PROJECT_ID}"
+
+                    // Create or update Kubernetes deployment
+                    sh 'kubectl apply -f deploy.yaml'
+                }
             }
         }
     }
