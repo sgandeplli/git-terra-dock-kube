@@ -18,29 +18,29 @@ pipeline {
         }
 
         stage('Build and Push Docker Image') {
-            steps {
-                script {
-                    def imageTag = "latest-${env.BUILD_NUMBER}" // Use BUILD_NUMBER to tag the image uniquely
-                    def fullImageName = "${IMAGE_NAME}:${imageTag}"
+    steps {
+        script {
+            def imageTag = "latest-${env.BUILD_NUMBER}" // Use BUILD_NUMBER to tag the image uniquely
+            def fullImageName = "${IMAGE_NAME}:${imageTag}"
 
-                    echo "Building the Docker image: ${fullImageName}"
-                    sh "docker build -t ${fullImageName} ."
+            echo "Building the Docker image: ${fullImageName}"
+            sh "docker build -t ${fullImageName} ."
 
-                    echo 'Pushing the Docker image to Docker Hub...'
-                    withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", 
-                                                     usernameVariable: 'DOCKER_USERNAME', 
-                                                     passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh '''
-                        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                        docker push ${fullImageName}
-                        '''
-                    }
-
-                    // Export the full image name for use in the deployment manifest
-                    env.FULL_IMAGE_NAME = fullImageName
-                }
+            echo 'Pushing the Docker image to Docker Hub...'
+            withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", 
+                                             usernameVariable: 'DOCKER_USERNAME', 
+                                             passwordVariable: 'DOCKER_PASSWORD')]) {
+                sh """
+                echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin
+                docker push ${fullImageName}
+                """
             }
+
+            // Export the full image name for use in the deployment manifest
+            env.FULL_IMAGE_NAME = fullImageName
         }
+    }
+}
 
         stage('Run Terraform') {
             steps {
