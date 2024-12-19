@@ -2,7 +2,7 @@ pipeline {
     agent any
 
      parameters {
-        string(name: 'CLUSTER_NAME', defaultValue: 'my-cluster1', description: 'The GKE cluster name')
+        string(name: 'CLUSTER_NAME', defaultValue: 'my-cluster11', description: 'The GKE cluster name')
         string(name: 'ZONE', defaultValue: 'us-west3', description: 'The GCP zone')
     }
 
