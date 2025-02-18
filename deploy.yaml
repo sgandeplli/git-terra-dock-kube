@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: flask-app-container
-        image: sekhar1913/satya-image:latest
+        image: sekhar1913/my-app:18
         ports:
         - containerPort: 5000  # Change this to the port your application listens on
 ---
